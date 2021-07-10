@@ -20,6 +20,27 @@ function compose_email() {
   document.querySelector('#compose-recipients').value = '';
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
+
+  //POST Email
+  document.querySelector('#compose-form').addEventListener('submit', function(){
+    const recipients = document.querySelector('#compose-recipients').value;
+    const subject = document.querySelector('#compose-subject').value;
+    const body = document.querySelector('#compose-body').value;
+    fetch('/emails', {
+      method: 'POST',
+      body: JSON.stringify({
+          recipients: recipients,
+          subject: subject,
+          body: body,
+      })
+    })
+    .then(response => response.json())
+    .then(result => {
+        // Print result
+        console.log(result);
+    });  
+    load_mailbox('sent');
+  });
 }
 
 function load_mailbox(mailbox) {
@@ -30,4 +51,37 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  // Show the emails on the mailbox
+  retreiving_emails(mailbox);
 }
+
+function retreiving_emails(mailbox) {
+  fetch(`/emails/${mailbox}`)
+  .then(response => response.json())
+  .then(emails => {
+      emails.forEach(add_email);
+  });
+}
+
+function add_email(contents){
+  const email = document.createElement('div');
+  const timestamp = document.createElement('div');
+  const subject = document.createElement('div');
+
+  timestamp.className = 'timestamp';
+
+  email.className = 'alert alert-light'
+  email.innerHTML = `From: ${contents.sender} to: ${contents.recipients}.`;
+  timestamp.innerHTML = `At: ${contents.timestamp}`;
+  subject.innerHTML = `Subject: (${contents.subject})`;
+  
+  email.append(document.createElement('hr'));
+  email.append(subject);
+  email.append(timestamp);
+
+  email.addEventListener('click', () => {
+  });
+
+  document.querySelector('#emails-view').append(email);
+}
+

@@ -27,3 +27,7 @@ class Email(models.Model):
             "read": self.read,
             "archived": self.archived
         }
+
+    def __str__(self):
+        receiver = self.recipients.all()
+        return f"from {self.sender} to {receiver[0]}. Subject: '{self.subject}' in {self.user}"
