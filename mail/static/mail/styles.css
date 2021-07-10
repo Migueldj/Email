@@ -2,6 +2,34 @@ textarea {
     min-height: 400px;
 }
 
-.timestamp{
-    text-align: right;
+.email{
+    border: 2px solid black;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.email div {
+    margin: 5px;
+}
+
+#email-view{
+    
+}
+
+#button-div{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+#button-div button{
+    margin: 5px;
+}
+
+#body{
+    margin-left: 20px;
+}
+
+#timestamp{
+    text-align: end;
 }
