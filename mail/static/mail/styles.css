@@ -2,6 +2,10 @@ textarea {
     min-height: 400px;
 }
 
+#user-email{
+    margin-top: 10px;
+}
+
 .email{
     border: 2px solid rgb(41, 125, 194);
     border-radius: 15px;
@@ -10,10 +14,6 @@ textarea {
 
 .email div {
     margin: 5px;
-}
-
-#email-view{
-    
 }
 
 #button-div{
@@ -37,8 +37,20 @@ textarea {
 .alert.alert-light {
     color: black;
     font-weight: bolder;
+    padding-bottom: 0;
+    padding-top: 0;
 }
 
 .alert.alert-secondary{
     border-radius: 15px;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.btn.btn-dark{
+    padding: 2px;
+}
+
+.div2{
+    padding-right: 20px;
 }
