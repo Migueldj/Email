@@ -3,8 +3,8 @@ textarea {
 }
 
 .email{
-    border: 2px solid black;
-    border-radius: 5px;
+    border: 2px solid rgb(41, 125, 194);
+    border-radius: 15px;
     margin: 5px;
 }
 
@@ -30,6 +30,15 @@ textarea {
     margin-left: 20px;
 }
 
-#timestamp{
+.div2 , #timestamp{
     text-align: end;
+}
+
+.alert.alert-light {
+    color: black;
+    font-weight: bolder;
+}
+
+.alert.alert-secondary{
+    border-radius: 15px;
 }

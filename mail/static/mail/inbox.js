@@ -70,24 +70,28 @@ function add_email(contents){
   email.className = 'email';
 
   const info = document.createElement('div');
-  const timestamp = document.createElement('div');
   const subject = document.createElement('div');
+  const div1 = document.createElement('div');
+
+  const timestamp = document.createElement('span');
   const archive = document.createElement('button');
+  const div2 = document.createElement('div');
 
   archive.className = 'btn btn-dark';
-  archive.innerHTML = 'Archive';
-  archive.style.margin = '5px';
+  archive.style.marginLeft = '10px';
+  div1.className = 'alert alert-light';
+  div2.className = 'div2';
 
   const user = document.getElementById('user-email').innerHTML;
 
   if (user === contents.sender) {
-    info.innerHTML = `To: ${contents.recipients}`;
+    info.innerHTML = `Sent to: ${contents.recipients}`;
     archive.style.display = 'none';
   } else {
     info.innerHTML = `From: ${contents.sender}`;
   
     if (contents.read) {
-      email.style.background = 'rgb(220, 220, 220)';
+      div1.className = "alert alert-secondary";
     }
 
   }
@@ -95,20 +99,22 @@ function add_email(contents){
   timestamp.innerHTML = `${contents.timestamp}`;
   subject.innerHTML = `Subject: (${contents.subject})`;
   
-  email.append(info);
-  email.append(document.createElement('hr'));
-  email.append(subject);
-  email.append(timestamp);
+  div1.append(subject);
+  div1.append(info);
+  email.append(div1);
+  div2.append(timestamp);
 
   if (!contents.archived) {
     archive.innerHTML = 'Archive';
-    email.append(archive);
+    div2.append(archive);
   } else {
     archive.innerHTML = 'Unarchive';
-    email.append(archive);
+    div2.append(archive);
   }
 
-  email.addEventListener('click', () => {
+  email.append(div2);
+
+  div1.addEventListener('click', () => {
     
     fetch(`/emails/${contents.id}`, {
       method: 'PUT',
