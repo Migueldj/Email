@@ -17,11 +17,36 @@ document.addEventListener('DOMContentLoaded', function() {
   })
 
   const form = document.getElementById('compose-form');
-  form.addEventListener('submit', () => {
+  // form.addEventListener('submit', () => {
 
-      const recipients = document.querySelector('#compose-recipients').value;
+  //     const recipients = document.querySelector('#compose-recipients').value;
+  //     const subject = document.querySelector('#compose-subject').value;
+  //     const body = document.querySelector('#compose-body').value;
+
+  //     fetch('/emails', {
+  //       method: 'POST',
+  //       body: JSON.stringify({
+  //           recipients: recipients,
+  //           subject: subject,
+  //           body: body,
+  //       })
+  //     })
+  //     .then(response => response.json())
+  //     .then(result => {
+  //         console.log(result);
+  //     });
+
+  //     load_mailbox('sent');
+
+  //     return false;
+
+  // });
+
+  form.onsubmit = () => {
+    const recipients = document.querySelector('#compose-recipients').value;
       const subject = document.querySelector('#compose-subject').value;
       const body = document.querySelector('#compose-body').value;
+
       fetch('/emails', {
         method: 'POST',
         body: JSON.stringify({
@@ -33,8 +58,12 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(response => response.json())
       .then(result => {
           console.log(result);
-      }); 
-  });
+      });
+
+      load_mailbox('sent');
+
+      return false;
+  }
 
   const reply = document.getElementById('reply')
   reply.addEventListener('click', () => {
@@ -55,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // By default, load the inbox
   load_mailbox('inbox');
   
-
 });
 
 function compose_email(data) {
@@ -72,20 +100,24 @@ function compose_email(data) {
   if (data.reply) {
     
     emailBox.value = data.email;
-    // emailBox.disabled = true;
 
-    subjectBox.value = `Re: ${data.subject}`;
-    // subjectBox.disabled = true;
-
+    let aux = '';
+    for (let i = 0; i < 3; i++) {
+      aux += data.subject.charAt(i);
+    }
+    if (aux == 'Re:' || aux == 're:') {
+      subjectBox.value = data.subject;
+    } else {
+      subjectBox.value = `Re: ${data.subject}`;
+    }
+    
     messageBox.value = `On <${data.timestamp}> <${data.email}> wrote: ` + '\n' + data.message;
 
   } else {
   // Clear out composition fields
     emailBox.value = '';
-    // emailBox.disabled = false;
     subjectBox.value = '';
     messageBox.value = '';
-
   }
   
 }
@@ -195,7 +227,7 @@ function add_email(contents){
   document.querySelector('#emails-view').append(email);
 }
 
-function load_email(sender, subject, body){
+function load_email(){
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'none';
   document.querySelector('#email-view').style.display = 'block';
