@@ -58,9 +58,10 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(response => response.json())
       .then(result => {
           console.log(result);
+          load_mailbox('sent'); // I moved this line here to show the submited email on the sent mailbox otherwise it wont be displayed, just the previous sent emails 
       });
 
-      load_mailbox('sent');
+      //load_mailbox('sent');
 
       return false;
   }
@@ -110,8 +111,8 @@ function compose_email(data) {
     } else {
       subjectBox.value = `Re: ${data.subject}`;
     }
-    
-    messageBox.value = `On <${data.timestamp}> <${data.email}> wrote: ` + '\n' + data.message;
+
+    messageBox.value = `On: ${data.timestamp}; ${data.email} wrote: ` + '\n' + data.message;
 
   } else {
   // Clear out composition fields
@@ -250,7 +251,7 @@ function retrieve_email(id){
       document.getElementById('info').innerHTML = email.sender;
       document.getElementById('button-div').style.display = 'flex';
     }
-
+    console.log(email.body);
     document.getElementById('subject').innerHTML = `${email.subject}`;
     document.getElementById('body').innerHTML = `${email.body}`;
     document.getElementById('timestamp').innerHTML = `${email.timestamp}`;

@@ -28,6 +28,7 @@ textarea {
 
 #body{
     margin-left: 20px;
+    white-space: pre-line; /* Added this for html to show the line breaks */
 }
 
 .div2 , #timestamp{
